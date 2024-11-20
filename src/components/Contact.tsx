@@ -13,15 +13,15 @@ const Contact = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     emailjs.send(
-      'YOUR_SERVICE_ID',
-      'YOUR_TEMPLATE_ID',
+      'service_08vr7vu',
+      'template_hddjimq',
       {
         to_email: 'shreyk1402@gmail.com',
         from_name: formData.name,
         from_email: formData.email,
         message: formData.message
       },
-      'YOUR_USER_ID'
+      'SGB0wV8GxGZ1ohK5v'
     );
     setFormData({ name: '', email: '', message: '' });
   };
