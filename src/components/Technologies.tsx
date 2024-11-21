@@ -1,6 +1,6 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Code2, Database, Globe, Layout, Server, Smartphone } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Code2, Database, Globe, Layout, Server, Smartphone, Star, ChevronDown } from 'lucide-react';
 
 const technologies = [
   {
@@ -35,31 +35,13 @@ const technologies = [
   }
 ];
 
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.3
-    }
-  }
-};
-
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { 
-    opacity: 1, 
-    y: 0,
-    transition: {
-      type: "spring",
-      stiffness: 100,
-      damping: 10
-    }
-  }
-};
-
 const Technologies = () => {
+  const [openDropdown, setOpenDropdown] = useState<number | null>(null);
+
+  const handleDropdownClick = (index: number) => {
+    setOpenDropdown(openDropdown === index ? null : index);
+  };
+
   return (
     <section className="py-20 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-6">
@@ -68,41 +50,81 @@ const Technologies = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="flex items-center mb-16"
         >
-          <h2 className="text-4xl font-bold text-gray-800 dark:text-white mb-4">Technologies & Skills</h2>
-          <p className="text-gray-600 dark:text-gray-300">Expertise across the full development stack</p>
+          <h2 className="text-4xl font-bold text-gray-800 dark:text-white">Technologies</h2>
+          <motion.div
+            animate={{
+              rotate: 360,
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            className="ml-4 text-yellow-400"
+          >
+            <Star className="w-8 h-8 fill-current" />
+          </motion.div>
         </motion.div>
 
-        <motion.div 
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
+        <div className="space-y-4">
           {technologies.map((tech, index) => (
             <motion.div
               key={index}
-              variants={item}
-              whileHover={{ y: -5 }}
-              className="p-6 rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 shadow-lg transform transition-all duration-300"
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="w-full"
             >
-              <div className="text-blue-600 dark:text-blue-400 mb-4">{tech.icon}</div>
-              <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">{tech.title}</h3>
-              <div className="flex flex-wrap gap-2">
-                {tech.skills.map((skill, skillIndex) => (
-                  <span
-                    key={skillIndex}
-                    className="px-3 py-1 text-sm bg-white dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-full shadow-sm"
+              <button
+                onClick={() => handleDropdownClick(index)}
+                className="w-full p-6 rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 shadow-lg transform transition-all duration-300 flex items-center justify-between hover:shadow-xl"
+              >
+                <div className="flex items-center space-x-4">
+                  <div className="text-blue-600 dark:text-blue-400">{tech.icon}</div>
+                  <h3 className="text-xl font-semibold text-gray-800 dark:text-white">{tech.title}</h3>
+                </div>
+                <motion.div
+                  animate={{ rotate: openDropdown === index ? 180 : 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <ChevronDown className="w-6 h-6 text-gray-500 dark:text-gray-400" />
+                </motion.div>
+              </button>
+              
+              <AnimatePresence>
+                {openDropdown === index && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
                   >
-                    {skill}
-                  </span>
-                ))}
-              </div>
+                    <div className="p-6 mt-2 bg-white dark:bg-gray-700 rounded-xl shadow-inner">
+                      <div className="flex flex-wrap gap-2">
+                        {tech.skills.map((skill, skillIndex) => (
+                          <motion.span
+                            key={skillIndex}
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: skillIndex * 0.1 }}
+                            className="px-4 py-2 text-sm bg-blue-50 dark:bg-gray-600 text-blue-600 dark:text-blue-300 rounded-full shadow-sm hover:shadow-md transition-shadow"
+                          >
+                            {skill}
+                          </motion.span>
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

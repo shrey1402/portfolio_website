@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Star, Quote } from 'lucide-react';
+import { Star, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const reviews = [
   {
@@ -23,58 +23,71 @@ const reviews = [
     image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop',
     content: 'The UI/UX design work transformed our app completely. User engagement has increased by 200% since the redesign. Incredible attention to user experience.',
     rating: 5
+  },
+  {
+    name: 'David Kim',
+    role: 'Product Manager',
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop',
+    content: "Exceptional work on our mobile app. The team's expertise in React Native delivered a seamless experience across all platforms.",
+    rating: 5
+  },
+  {
+    name: 'Lisa Thompson',
+    role: 'E-commerce Director',
+    image: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&h=400&fit=crop',
+    content: 'The Shopify integration was flawless. Our conversion rate improved by 150% within the first month after launch.',
+    rating: 5
   }
 ];
 
-const ReviewCard = ({ review, index }: { review: typeof reviews[0], index: number }) => {
+const ReviewCard = ({ review }: { review: typeof reviews[0] }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      className="flex-shrink-0 w-[350px] p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg mx-4"
+      initial={{ opacity: 0, scale: 0.9 }}
+      whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      className="relative bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg"
+      whileHover={{ y: -5 }}
+      transition={{ duration: 0.3 }}
     >
-      <div className="absolute top-6 right-8">
-        <Quote className="w-8 h-8 text-blue-100 dark:text-gray-700" />
-      </div>
-      
-      <div className="flex items-center space-x-4 mb-6">
-        <motion.img
-          initial={{ scale: 0 }}
-          whileInView={{ scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ type: "spring", stiffness: 100, delay: index * 0.1 + 0.2 }}
-          src={review.image}
-          alt={review.name}
-          className="w-16 h-16 rounded-full object-cover"
-        />
-        <div>
-          <h3 className="text-lg font-semibold text-gray-800 dark:text-white">{review.name}</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400">{review.role}</p>
+      <div className="relative">
+        <Quote className="absolute top-0 right-0 w-8 h-8 text-blue-100 dark:text-gray-700" />
+        <div className="flex items-center space-x-4 mb-6">
+          <img
+            src={review.image}
+            alt={review.name}
+            className="w-16 h-16 rounded-full object-cover"
+          />
+          <div>
+            <h3 className="text-lg font-semibold text-gray-800 dark:text-white">{review.name}</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400">{review.role}</p>
+          </div>
         </div>
-      </div>
-
-      <p className="text-gray-600 dark:text-gray-300 mb-6">{review.content}</p>
-
-      <div className="flex space-x-1">
-        {[...Array(review.rating)].map((_, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, scale: 0 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: index * 0.1 + i * 0.1 }}
-          >
-            <Star className="w-5 h-5 fill-current text-yellow-400" />
-          </motion.div>
-        ))}
+        <p className="text-gray-600 dark:text-gray-300 mb-6 line-clamp-4">{review.content}</p>
+        <div className="flex space-x-1">
+          {[...Array(review.rating)].map((_, i) => (
+            <Star key={i} className="w-5 h-5 fill-current text-yellow-400" />
+          ))}
+        </div>
       </div>
     </motion.div>
   );
 };
 
 const Reviews = () => {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = 400;
+      const newScrollLeft = scrollContainerRef.current.scrollLeft + (direction === 'left' ? -scrollAmount : scrollAmount);
+      scrollContainerRef.current.scrollTo({
+        left: newScrollLeft,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <section className="py-20 bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto px-6">
@@ -89,12 +102,50 @@ const Reviews = () => {
           <p className="text-gray-600 dark:text-gray-300">What our clients say about our work</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {reviews.map((review, index) => (
-            <ReviewCard key={index} review={review} index={index} />
-          ))}
+        <div className="relative">
+          {/* Left shadow overlay */}
+          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-gray-50 to-transparent dark:from-gray-900 dark:to-transparent z-10" />
+
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => scroll('left')}
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white dark:bg-gray-800 rounded-full p-3 shadow-lg hover:shadow-xl transition-shadow"
+          >
+            <ChevronLeft className="w-6 h-6 text-gray-600 dark:text-gray-300" />
+          </motion.button>
+
+          <div
+            ref={scrollContainerRef}
+            className="flex overflow-x-auto scrollbar-hide scroll-smooth py-4 px-32"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            <div className="flex space-x-6">
+              {reviews.map((review, index) => (
+                <ReviewCard key={index} review={review} />
+              ))}
+            </div>
+          </div>
+
+          {/* Right shadow overlay */}
+          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-gray-50 to-transparent dark:from-gray-900 dark:to-transparent z-10" />
+
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => scroll('right')}
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white dark:bg-gray-800 rounded-full p-3 shadow-lg hover:shadow-xl transition-shadow"
+          >
+            <ChevronRight className="w-6 h-6 text-gray-600 dark:text-gray-300" />
+          </motion.button>
         </div>
       </div>
+
+      <style>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </section>
   );
 };

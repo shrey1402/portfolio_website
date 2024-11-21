@@ -1,6 +1,6 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Code2, Palette, ShoppingBag, Globe, BarChart3, Smartphone } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Code2, Palette, ShoppingBag, Globe, BarChart3, Smartphone, Star, ChevronDown } from 'lucide-react';
 
 const services = [
   {
@@ -61,6 +61,12 @@ const services = [
 ];
 
 const Services = () => {
+  const [openDropdown, setOpenDropdown] = useState<number | null>(null);
+
+  const handleDropdownClick = (index: number) => {
+    setOpenDropdown(openDropdown === index ? null : index);
+  };
+
   return (
     <section className="py-20 bg-gray-50 dark:bg-gray-800">
       <div className="container mx-auto px-6">
@@ -69,40 +75,85 @@ const Services = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="flex items-center mb-16"
         >
-          <h2 className="text-4xl font-bold text-gray-800 dark:text-white mb-4">Services</h2>
-          <p className="text-gray-600 dark:text-gray-300">Delivering exceptional digital experiences</p>
+          <h2 className="text-4xl font-bold text-gray-800 dark:text-white">Services</h2>
+          <motion.div
+            animate={{
+              rotate: 360,
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            className="ml-4 text-yellow-400"
+          >
+            <Star className="w-8 h-8 fill-current" />
+          </motion.div>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="space-y-4">
           {services.map((service, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ y: -5 }}
-              className="relative group"
+              className="w-full"
             >
-              <div className={`absolute inset-0 bg-gradient-to-r ${service.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl`} />
-              <div className="relative p-8 bg-white dark:bg-gray-700 rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300">
-                <div className={`inline-block p-4 bg-gradient-to-r ${service.gradient} rounded-lg text-white mb-6`}>
-                  {service.icon}
+              <button
+                onClick={() => handleDropdownClick(index)}
+                className="w-full p-6 rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 shadow-lg transform transition-all duration-300 flex items-center justify-between hover:shadow-xl"
+              >
+                <div className="flex items-center space-x-4">
+                  <div className={`p-3 bg-gradient-to-r ${service.gradient} rounded-lg text-white`}>
+                    {service.icon}
+                  </div>
+                  <div className="text-left">
+                    <h3 className="text-xl font-semibold text-gray-800 dark:text-white">{service.title}</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">{service.description}</p>
+                  </div>
                 </div>
-                <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">{service.title}</h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-6">{service.description}</p>
-                <div className="space-y-2">
-                  <p className="font-medium text-gray-700 dark:text-gray-200 mb-2">Recent Projects:</p>
-                  {service.examples.map((example, i) => (
-                    <div key={i} className="flex items-center text-sm text-gray-600 dark:text-gray-300">
-                      <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 mr-2" />
-                      {example}
+                <motion.div
+                  animate={{ rotate: openDropdown === index ? 180 : 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <ChevronDown className="w-6 h-6 text-gray-500 dark:text-gray-400" />
+                </motion.div>
+              </button>
+              
+              <AnimatePresence>
+                {openDropdown === index && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="p-6 mt-2 bg-white dark:bg-gray-700 rounded-xl shadow-inner">
+                      <h4 className="font-medium text-gray-700 dark:text-gray-200 mb-4">Recent Projects:</h4>
+                      <div className="space-y-3">
+                        {service.examples.map((example, exampleIndex) => (
+                          <motion.div
+                            key={exampleIndex}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: exampleIndex * 0.1 }}
+                            className="flex items-center space-x-3"
+                          >
+                            <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${service.gradient}`} />
+                            <span className="text-gray-600 dark:text-gray-300">{example}</span>
+                          </motion.div>
+                        ))}
+                      </div>
                     </div>
-                  ))}
-                </div>
-              </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           ))}
         </div>
