@@ -55,11 +55,11 @@ function App() {
                         <Mail className="w-4 h-4 mr-2" />
                         Email
                       </a>
-                      <a href="skype:your.skype.id?chat" className="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <a href="https://join.skype.com/invite/ved6BTKi3osm" className="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
                         <MessageCircle className="w-4 h-4 mr-2" />
                         Skype
                       </a>
-                      <a href="https://linkedin.com/in/your-profile" target="_blank" rel="noopener noreferrer" className="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <a href="https://linkedin.com/in/shrey-katharotiya-2ba7a7213" target="_blank" rel="noopener noreferrer" className="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
                         <Linkedin className="w-4 h-4 mr-2" />
                         LinkedIn
                       </a>
