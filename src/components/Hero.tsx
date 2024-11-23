@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Typewriter from 'typewriter-effect';
-import { ChevronDown, Code2, Palette, Globe } from 'lucide-react';
+import { Code2, Palette, Globe } from 'lucide-react';
 
 const floatingAnimation = {
   initial: { y: 0 },
@@ -55,7 +55,7 @@ const Hero = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="mb-8"
           >
-            <div className="flex justify-center space-x-4 mb-6">
+            <div className="flex justify-center space-x-4 mb-8">
               {[Code2, Palette, Globe].map((Icon, index) => (
                 <motion.div
                   key={index}
@@ -72,7 +72,7 @@ const Hero = () => {
             </div>
 
             <motion.h1 
-              className="text-6xl md:text-7xl font-bold text-gray-800 dark:text-white mb-6"
+              className="text-6xl md:text-7xl font-bold text-gray-800 dark:text-white mb-8"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
@@ -99,7 +99,7 @@ const Hero = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 0.8 }}
-              className="text-2xl md:text-3xl text-gray-600 dark:text-gray-300 h-20 mb-8"
+              className="text-2xl md:text-3xl text-gray-600 dark:text-gray-300 mb-12"
             >
               <Typewriter
                 options={{
@@ -117,30 +117,7 @@ const Hero = () => {
               />
             </motion.div>
           </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1 }}
-            className="flex justify-center gap-6"
-          >
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full font-medium hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl"
-            >
-              Explore Services
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-8 py-3 border-2 border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400 rounded-full font-medium hover:bg-blue-50 dark:hover:bg-gray-800 transition-all"
-            >
-              Get in Touch
-            </motion.button>
-          </motion.div>
         </div>
-
       </div>
     </section>
   );
