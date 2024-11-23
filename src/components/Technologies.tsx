@@ -4,6 +4,11 @@ import { Code2, Database, Globe, Layout, Server, Smartphone, Star, ChevronDown }
 
 const technologies = [
   {
+    icon: <Smartphone className="w-8 h-8" />,
+    title: 'Mobile',
+    skills: ['React Native', 'Flutter', 'iOS', 'Android']
+  },
+  {
     icon: <Code2 className="w-8 h-8" />,
     title: 'Frontend',
     skills: ['React', 'Vue.js', 'TypeScript', 'Tailwind CSS', 'Next.js']
@@ -28,11 +33,6 @@ const technologies = [
     title: 'Design',
     skills: ['Figma', 'Adobe XD', 'UI/UX', 'Illustrator']
   },
-  {
-    icon: <Smartphone className="w-8 h-8" />,
-    title: 'Mobile',
-    skills: ['React Native', 'Flutter', 'iOS', 'Android']
-  }
 ];
 
 const Technologies = () => {
