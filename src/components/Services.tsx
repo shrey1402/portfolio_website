@@ -77,7 +77,6 @@ const Services = () => {
           transition={{ duration: 0.6 }}
           className="flex items-center mb-16"
         >
-          <h2 className="text-4xl font-bold text-gray-800 dark:text-white">Services</h2>
           <motion.div
             animate={{
               rotate: 360,
@@ -86,12 +85,13 @@ const Services = () => {
             transition={{
               duration: 3,
               repeat: Infinity,
-              ease: "linear"
+              ease: "linear",
             }}
-            className="ml-4 text-yellow-400"
+            className="mr-4 text-yellow-400"
           >
             <Star className="w-8 h-8 fill-current" />
           </motion.div>
+          <h2 className="text-4xl font-bold text-gray-800 dark:text-white">Services</h2>
         </motion.div>
 
         <div className="space-y-4">
@@ -124,7 +124,7 @@ const Services = () => {
                   <ChevronDown className="w-6 h-6 text-gray-500 dark:text-gray-400" />
                 </motion.div>
               </button>
-              
+
               <AnimatePresence>
                 {openDropdown === index && (
                   <motion.div

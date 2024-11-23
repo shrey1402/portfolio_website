@@ -68,8 +68,8 @@ function App() {
                 </AnimatePresence>
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-800 dark:text-white">Shrey's Portfolio</h1>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Full Stack Developer</p>
+                <h1 className="text-xl font-bold text-gray-800 dark:text-white underline">Shrey's Portfolio</h1>
+                <p className="text-sm text-gray-600 dark:text-gray-400">|| Full Stack Developer ||</p>
               </div>
             </motion.div>
             <AnimatePresence mode="wait">
